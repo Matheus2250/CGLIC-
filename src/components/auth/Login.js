@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 const Login = () => {
@@ -9,6 +9,7 @@ const Login = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Adicionando o hook useNavigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,6 +26,9 @@ const Login = () => {
       console.log('Login com:', credentials);
       // Aqui você implementará a integração com o backend posteriormente
       setLoading(false);
+      
+      // Após o login bem-sucedido, navegue para a página Home
+      navigate('/home');
     }, 1000);
   };
 

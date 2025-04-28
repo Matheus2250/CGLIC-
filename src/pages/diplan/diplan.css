@@ -1,0 +1,128 @@
+/* src/components/Diplan.css */
+.diplan-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .diplan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .diplan-header h1 {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+  }
+  
+  .btn-back {
+    padding: 0.5rem 1rem;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .btn-back:hover {
+    background-color: #e5e5e5;
+  }
+  
+  .upload-section, 
+  .preview-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .upload-section h2,
+  .preview-section h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .upload-section p {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #e74c3c;
+    font-style: italic;
+  }
+  
+  .file-input-container {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .btn-upload {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    padding: 0.75rem;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-upload:hover {
+    background-color: #3a7bc8;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+  
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .data-table th, 
+  .data-table td {
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .data-table th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .btn-cancel {
+    padding: 0.75rem 1.5rem;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #666;
+    cursor: pointer;
+  }
+  
+  .btn-confirm {
+    padding: 0.75rem 1.5rem;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-confirm:hover {
+    background-color: #c0392b;
+  }

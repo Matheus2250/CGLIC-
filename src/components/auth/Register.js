@@ -1,6 +1,6 @@
 // src/components/auth/Register.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 const Register = () => {
@@ -13,6 +13,7 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Adicionando o hook useNavigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +45,9 @@ const Register = () => {
       console.log('Registro com:', user);
       // Aqui você implementará a integração com o backend posteriormente
       setLoading(false);
+      
+      // Após o registro bem-sucedido, navegue para a página Home
+      navigate('/home');
     }, 1000);
   };
 
