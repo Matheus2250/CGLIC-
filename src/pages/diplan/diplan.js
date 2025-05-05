@@ -1,5 +1,7 @@
+// src/pages/diplan/diplan.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DiplanService from '../../services/diplanService';
 import './diplan.css';
 
 const Diplan = () => {
@@ -7,37 +9,55 @@ const Diplan = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
   const [tableData, setTableData] = useState([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
 
-  const handleUpload = (e) => {
+  const handleUpload = async (e) => {
     e.preventDefault();
     if (!selectedFile) {
-      alert('Por favor, selecione um arquivo para upload.');
+      setError('Por favor, selecione um arquivo para upload.');
       return;
     }
 
-    // Aqui você implementará a lógica para processar o arquivo
-    console.log('Arquivo selecionado:', selectedFile.name);
+    setLoading(true);
+    setError('');
 
-    // Simulando dados de uma planilha
-    const mockData = [
-      { id: 1, campo1: 'Dado 1', campo2: 'Dado 2', campo3: 'Dado 3' },
-      { id: 2, campo1: 'Dado 4', campo2: 'Dado 5', campo3: 'Dado 6' },
-      { id: 3, campo1: 'Dado 7', campo2: 'Dado 8', campo3: 'Dado 9' },
-    ];
-
-    setTableData(mockData);
-    setIsUploaded(true);
+    try {
+      const response = await DiplanService.uploadFile(selectedFile);
+      setTableData(response.data);
+      setIsUploaded(true);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Erro ao processar o arquivo.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleConfirm = () => {
-    // Aqui você implementará a lógica para confirmar a substituição
-    console.log('Substituição confirmada');
-    alert('Planilha substituída com sucesso!');
-    navigate('/home');
+  const handleConfirm = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      // Aqui você poderia implementar a lógica para enviar os dados ao backend
+      // Por exemplo, mapear tableData para o formato esperado pela API
+      
+      // Exemplo simplificado:
+      await DiplanService.saveData({
+        // Dados da planilha processados
+        data: tableData
+      });
+      
+      alert('Planilha substituída com sucesso!');
+      navigate('/home');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Erro ao salvar os dados.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBackToHome = () => {
@@ -53,6 +73,8 @@ const Diplan = () => {
         </button>
       </div>
 
+      {error && <div className="error-message">{error}</div>}
+
       {!isUploaded ? (
         <div className="upload-section">
           <h2>Faça o upload da planilha diária</h2>
@@ -63,10 +85,11 @@ const Diplan = () => {
                 type="file" 
                 onChange={handleFileChange} 
                 accept=".xlsx,.xls,.csv"
+                disabled={loading}
               />
             </div>
-            <button type="submit" className="btn-upload">
-              Carregar Planilha
+            <button type="submit" className="btn-upload" disabled={loading}>
+              {loading ? 'Processando...' : 'Carregar Planilha'}
             </button>
           </form>
         </div>
@@ -77,30 +100,30 @@ const Diplan = () => {
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Campo 1</th>
-                  <th>Campo 2</th>
-                  <th>Campo 3</th>
+                  {/* Renderizar cabeçalhos dinâmicos baseados nos dados */}
+                  {tableData.length > 0 && Object.keys(tableData[0]).map(key => (
+                    <th key={key}>{key}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                {tableData.map(row => (
-                  <tr key={row.id}>
-                    <td>{row.id}</td>
-                    <td>{row.campo1}</td>
-                    <td>{row.campo2}</td>
-                    <td>{row.campo3}</td>
+                {tableData.map((row, index) => (
+                  <tr key={index}>
+                    {/* Renderizar células dinâmicas baseadas nos dados */}
+                    {Object.values(row).map((value, cellIndex) => (
+                      <td key={cellIndex}>{value}</td>
+                    ))}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           <div className="action-buttons">
-            <button onClick={() => setIsUploaded(false)} className="btn-cancel">
+            <button onClick={() => setIsUploaded(false)} className="btn-cancel" disabled={loading}>
               Cancelar
             </button>
-            <button onClick={handleConfirm} className="btn-confirm">
-              Confirmar Substituição
+            <button onClick={handleConfirm} className="btn-confirm" disabled={loading}>
+              {loading ? 'Processando...' : 'Confirmar Substituição'}
             </button>
           </div>
         </div>

@@ -50,6 +50,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     return http.build();
 }
 
+
         // Adiciona o filtro JWT para processar os tokens
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -77,4 +78,3 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
-}
