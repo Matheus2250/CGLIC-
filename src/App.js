@@ -1,4 +1,4 @@
-// src/App.js
+// src/App.js - versão corrigida para React Router v6
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/auth/Login';
@@ -32,7 +32,6 @@ function App() {
   }, []);
 
   if (isCheckingAuth) {
-    // Mostrar indicador de carregamento enquanto verifica a autenticação
     return <div>Carregando...</div>;
   }
 
@@ -42,21 +41,30 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/home" element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          } />
-          <Route path="/dipli" element={
-            <ProtectedRoute>
-              <Dipli />
-            </ProtectedRoute>
-          } />
-          <Route path="/diplan" element={
-            <ProtectedRoute>
-              <Diplan />
-            </ProtectedRoute>
-          } />
+          <Route 
+            path="/home" 
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/dipli" 
+            element={
+              <ProtectedRoute>
+                <Dipli />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/diplan" 
+            element={
+              <ProtectedRoute>
+                <Diplan />
+              </ProtectedRoute>
+            } 
+          />
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </div>

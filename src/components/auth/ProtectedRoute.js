@@ -1,15 +1,21 @@
-// src/components/auth/ProtectedRoute.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import AuthService from '../../services/authService';
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('token') !== null;
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const valid = await AuthService.verifyToken();
+      setIsAuthenticated(valid);
+    };
+    checkAuth();
+  }, []);
+
+  if (isAuthenticated === null) return <div>Verificando...</div>;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+
   return children;
 };
 
